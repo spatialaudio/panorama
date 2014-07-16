@@ -3,7 +3,7 @@ from sys import stderr
 import configparser
 import argparse
 from pythonPanorama.panoramaCalculation import panoramaCalculation
-from pythonPanorama.improvementPic import improvementPic
+from pythonPanorama.PicImprover import picImprover
 
 def arg_options():
 
@@ -58,7 +58,7 @@ def main():
         config['camera']['param_b']=str(args.abc[1])
         config['camera']['param_c']=str(args.abc[2])
     if(args.fulla):
-        config['camera']['fulla']=args.fulla
+        config['hugin']['fulla']=args.fulla
 
     if(args.directory):
         config['output']['directory']=args.directory
@@ -77,12 +77,12 @@ def main():
     param_a=float(config['camera']['param_a'])
     param_b=float(config['camera']['param_b'])
     param_c=float(config['camera']['param_c'])
-    fulla=config['camera']['fulla']
+    fulla=config['hugin']['fulla']
     dir_output=config['output']['directory']
+   
+
+    improve=picImprover(dir_output,fulla)
     
-
-    improve=improvementPic(dir_output,fulla)
-
 
     improve.showStatistic(param_a,param_b,param_c) 
     
