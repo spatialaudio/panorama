@@ -1,13 +1,12 @@
 PROJECT PANORAMA
 
 Tutorial:
-    We will build a tutorial where we will guide you to your first 3D-Panorama to get familiar with our programs.
+    We will build a tutorial to guide you to your first 3D-Panorama. During this process you will get familiar with our programs.
     The location of this tutorial is @ https://github.com/spatialaudio/panorama-examples.
-    For this purpose you don´t need to communicate with the varisphear because the picture are already made.
 
 Software dependencies:
 
-    1) [ optional ] : We recommend the use of a virtual environment for our python project.
+    1) [ optional ] : We recommend the use of a virtual environment for the python project.
                       This prevent namespace error etc.
                       It is easily set up with "virutalenv" :
                                 sudo apt-get install virtualenv
