@@ -56,6 +56,6 @@ class picImprover:
             if(picture.endswith('_corr.JPG')):
                 print(" Picture is already corrected \n")
             else:	
-                subprocess.call([self.fulla,'-g '+a+':'+b+':'+c+':'+d+' -o _tesst',filenameABS])
+                subprocess.call([self.fulla,'-g '+a+':'+b+':'+c+':'+d,filenameABS])
 
                 

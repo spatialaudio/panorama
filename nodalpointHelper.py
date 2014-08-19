@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-#import schunk
-#import serial
+import schunk
+import serial
 import argparse
+from sys import stderr
 
 def arg_options():
 
@@ -33,46 +34,51 @@ def main():
     # get arguments
     args = arg_options()
 
+    top = schunk.Module(schunk.SerialConnection( 0x0B, serial.Serial, port='COM2',baudrate=9600, timeout=None))
+    if(not top.toggle_impulse_message()):
+        top.toggle_impulse_message();
+
 
     # Init motor
-    #try:
+    try:
     # "top" indicate the motor, which is responsible for the vertical rotation   
-    #top = schunk.Module(schunk.SerialConnection(
-    #    0x0B, serial.Serial, port='COM2', baudrate=9600, timeout=None))
-    #if(not top.toggle_impulse_message()):
-    #    top.toggle_impulse_message();
-    #except:
-    #    stderr.write("\nERROR @takingPicture by connecting to top schunkModul")
-    #    exit()
+        top = schunk.Module(schunk.SerialConnection( 0x0B, serial.Serial, port='COM2',baudrate=9600, timeout=None))
 
+        if(not top.toggle_impulse_message()):
+            top.toggle_impulse_message();
+    except:
+        stderr.write("\nERROR @takingPicture by connecting to top schunkModul")
+        exit()
+    
+    try:
     # "base" indicate the motor, which is responsible for the horizontal rotation   
-    #base = schunk.Module(schunk.SerialConnection(
-    #    0x0B, serial.Serial, port='COM1', baudrate=9600, timeout=None))
-    #if(not base.toggle_impulse_message()):
-    #    base.toggle_impulse_message();  
-    #except:
-    #    stderr.write("\nERROR @takingPicture by connecting to base schunkModul")
-    #    exit()
+        base = schunk.Module(schunk.SerialConnection(0x0B, serial.Serial, port='COM1',baudrate=9600, timeout=None))
+
+        if(not base.toggle_impulse_message()):
+            base.toggle_impulse_message();  
+    except:
+        stderr.write("\nERROR @takingPicture by connecting to base schunkModul")
+        exit()
 
     
 
     if(args.left):
         print("left: "+str(args.left[0]%360.0))
-        #top.move_pos_rel_blocking(args.left[0]%360.0)
+        top.move_pos_rel_blocking(args.left[0]%360.0)
     elif(args.right):
         print("right: "+str(args.right[0]%360.0))
-        #top.move_pos_rel_blocking(args.right[0]%360.0)
+        top.move_pos_rel_blocking(args.right[0]%360.0)
     
     if(args.init):
         print("init")
-        #top.move_pos_blocking(0)
-        #base.move_pos_blocking(0)
+        top.move_pos_blocking(0)
+        base.move_pos_blocking(0)
     elif(args.up):
         print("up")
-        #top.move_pos_blocking(0)
+        top.move_pos_blocking(0)
     elif(args.down):
         print("down")
-        #top.move_pos_blocking(-90)
+        top.move_pos_blocking(-90)
     
         
 

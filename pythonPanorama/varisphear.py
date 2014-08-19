@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #import schunk
 #import serial
 import math
@@ -11,8 +10,7 @@ class varisphear:
         self.calc=panoramaCalculation()
 
     def mapMotorTop(self,angle_v):
-        # Creates a List containing the motorposition for each vertical stage.
-        # 
+        """Creates a List containing the motorposition for each vertical stage."""
         
         # Number of vertical Stages
         NumStages=int(self.calc.calcNumStages(angle_v));
@@ -133,7 +131,9 @@ class varisphear:
 		
         try:
             os.popen(cmd)
-        except:
+        except SystemError as bla:
+
+            raise RuntimeError("bla bla")
             stderr.write("\nERROR @triggerCam by calling %s"%cmd)
             stderr.write("\nMake sure that gphoto2 is correct installed and the camera is connected in normal Mode")
         exit()
