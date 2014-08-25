@@ -29,8 +29,8 @@ class ConfigCreater:
 
         # section : varisphear
         config['varisphear'] = {}
-        config['varisphear']['serialport_top'] = 'COM2'
-        config['varisphear']['serialport_base'] = 'COM1'
+        config['varisphear']['serialport_top'] = '/dev/ttyr01'
+        config['varisphear']['serialport_base'] = '/dev/ttyr00'
 
         with open(filename, 'w') as configfile:
             config.write(configfile)

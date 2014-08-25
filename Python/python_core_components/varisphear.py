@@ -4,14 +4,17 @@ import math
 from sys import stderr
 import os
 from python_core_components.panorama_calculation import PanoramaCalculator
+from time import sleep
 
 
 class VariSphear:
     ''' Offers functions for taking picture 
         with the VariSphear '''
 
-    def __init__(self):
+    def __init__(self, port_top, port_base):
         self.calc = PanoramaCalculator()
+        self.port_top = port_top
+        self.port_base = port_base
 
     def map_motor_top(self, angle_v):
         '''Creates a List containing the motorposition
@@ -84,8 +87,9 @@ class VariSphear:
         for step in range(RotationSteps):
             # Positions between 0° and 360°
             position = start + motor_step * float(step)
-            print(str(position))
             li_motorBase.append(round(position, 2))
+
+        print("\n Motor Positions Horizontal" + str(li_motorBase))
 
         return li_motorBase
 
@@ -99,7 +103,7 @@ class VariSphear:
             top = schunk.Module(schunk.SerialConnection(
                 0x0B,
                 serial.Serial,
-                port='COM2',
+                port=self.port_top,
                 baudrate=9600,
                 timeout=None))
 
@@ -116,7 +120,7 @@ class VariSphear:
             base = schunk.Module(schunk.SerialConnection(
                 0x0B,
                 serial.Serial,
-                port='COM1',
+                port=self.port_base,
                 baudrate=9600,
                 timeout=None))
 
@@ -127,34 +131,34 @@ class VariSphear:
                  by connecting to base schunkModul''')
             exit()
 
+
         for index_v, pos_v in enumerate(li_motorTop):
-            # top.move_pos_blocking(pos_v)
+            top.move_pos_blocking(pos_v)
 
             for index_h, pos_h in enumerate(li_motorBase):
-                # base.move_pos_blocking(pos_h)
+                base.move_pos_blocking(pos_h)
 
-                filename = dir_output + "pano" + "V" + \
+                filename = dir_output + '/' + "pano" + "V" + \
                     str(index_v) + "H" + str(index_h) + ".jpg"
+                
                 # take a picture on each step
-                # self.triggerCam(filename)
+                self.trigger_cam(filename, 5)
 
-                # print("\n"+filename)
+                print("\n"+filename)
 
-    def trigger_cam(self, filename):
+    def trigger_cam(self, filename, wait):
         # Triggers the Cam using the cmd-tool of gphoto2 and download+save the
         # picture in 'filename'
         print("\n click")
 
-        cmd = "gphoto2 --capture-image-and-download --keep --filename " + \
-            filename + " "
+        cmd = "gphoto2 --capture-image-and-download --keep --filename " + filename + " "
+        
+        print(cmd)
 
         try:
             os.popen(cmd)
-        except SystemError as bla:
+        except SystemError as error:
 
-            raise RuntimeError("bla bla")
-            stderr.write("\nERROR @triggerCam by calling %s" % cmd)
-            stderr.write(
-                '''\nMake sure that gphoto2 is correct installed
-                 and the camera is connected in normal Mode''')
-        exit()
+            raise RuntimeError(''' Orignal Error : ''' + str(error) + '''\n \nMake sure that gphoto2 is correct installed.''')
+
+        sleep(wait)

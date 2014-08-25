@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 import schunk
 import serial
 import argparse
 from sys import stderr
+import configparser
 
 
 def arg_options():
@@ -48,6 +48,14 @@ def arg_options():
         action='store_true',
         help='Drive both moduls to the 0 degree position ')
 
+    parser.add_argument(
+        '--config',
+        dest='config',
+        default=None,
+        metavar=('CONFIGFILE'),
+        help='''Specifies the realtive path to "panorama.cfg"
+        ( default: panorama.cfg ) ''')
+
     # return arguments
     return parser.parse_args()
 
@@ -57,10 +65,24 @@ def main():
     # get arguments
     args = arg_options()
 
-    top = schunk.Module(schunk.SerialConnection(
-        0x0B, serial.Serial, port='COM2', baudrate=9600, timeout=None))
-    if(not top.toggle_impulse_message()):
-        top.toggle_impulse_message()
+    # set path to panorama.cfg
+    path_cfg = args.config
+    if(not path_cfg):
+        path_cfg = 'panorama.cfg'    
+
+    # get values from 'path_cfg'
+    config = configparser.ConfigParser()
+    try:
+        config.read(path_cfg)
+        test = config['camera']['vertical_angle']
+    except:
+        stderr.write("\n ERROR: Can´t open file: %s !\n exit \n" % path_cfg)
+        exit()
+
+
+    # Get Interfaces / Ports to VariSphear
+    port_top = config['varisphear']['serialport_top'] 
+    port_base = config['varisphear']['serialport_base'] 
 
     # Init motor
     try:
@@ -68,7 +90,7 @@ def main():
         #   which is responsible for the vertical rotation
 
         top = schunk.Module(schunk.SerialConnection(
-            0x0B, serial.Serial, port='COM2', baudrate=9600, timeout=None))
+            0x0B, serial.Serial, port=port_top, baudrate=9600, timeout=None))
 
         if(not top.toggle_impulse_message()):
             top.toggle_impulse_message()
@@ -80,7 +102,7 @@ def main():
         # "base" indicate the motor,
         #   which is responsible for the horizontal rotation
         base = schunk.Module(schunk.SerialConnection(
-            0x0B, serial.Serial, port='COM1', baudrate=9600, timeout=None))
+            0x0B, serial.Serial, port=port_base, baudrate=9600, timeout=None))
 
         if(not base.toggle_impulse_message()):
             base.toggle_impulse_message()
@@ -91,10 +113,10 @@ def main():
 
     if(args.left):
         print("left: " + str(args.left[0] % 360.0))
-        top.move_pos_rel_blocking(args.left[0] % 360.0)
+        base.move_pos_rel_blocking(args.left[0] % 360.0)
     elif(args.right):
-        print("right: " + str(args.right[0] % 360.0))
-        top.move_pos_rel_blocking(args.right[0] % 360.0)
+        print("right: " + str(-(args.right[0] % 360.0)))
+        base.move_pos_rel_blocking(-(args.right[0] % 360.0))
 
     if(args.init):
         print("init")

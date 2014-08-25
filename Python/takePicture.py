@@ -110,8 +110,12 @@ def main():
     angle_v = float(config['camera']['vertical_angle'])
     dir_output = config['output']['directory']
 
+    # Get Interfaces / Ports to VariSphear
+    port_top = config['varisphear']['serialport_top'] 
+    port_base = config['varisphear']['serialport_base'] 
+
     calc = PanoramaCalculator()
-    variSphear = VariSphear()
+    variSphear = VariSphear(port_top, port_base)
 
     if(args.info):
         calc.show_info()
@@ -123,6 +127,7 @@ def main():
 
     # Taking the Pictures
     if(not args.noPicture):
+
         variSphear.taking_pictures(
             li_motorTop, li_motorBase, dir_output, path_cfg)
 
