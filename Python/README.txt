@@ -137,6 +137,11 @@ Software dependencies:
             to load these moduls run ( as root ):
                 ./mxloadsrv    
             
+            In directory /dev should now ttyr00, ttyr01, ttyr02, ttyr03 exist.
+            In our case we use ttyr00 ( baseMotor ) and ttyr01 ( topMotor ).
+            If you want to chance this you have to it by manuelly edit the config File.
+            We created a config File in Step 5 in "Getting Started". 
+
             For further instructions have a look at npreal2xx/README !
 
     4) : [ optional ] :
@@ -169,6 +174,7 @@ Software dependencies:
          Make sure your camera is in "normal Mode" and powered on.
          Check if your PC recognised your camera by typing : gphoto2 --auto-detect
          Check if your Cam is supported by gPhoto2 by typing : gphoto2 --capture-image-and-download --keep
+         If the error 'Could not claim the USB device' occurs , type : ps ax | grep gphoto and kill all of this prozesses
          ( This cmd is used by varisphear.py to take pictures. If it doesn´t work, look at "gphoto2 --help" for alternativ Instructions. )
          
     4) : Remember to activate your virtual enviroment ( if you installed one )

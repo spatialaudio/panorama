@@ -127,7 +127,7 @@ def main():
         top.move_pos_blocking(0)
     elif(args.down):
         print("down")
-        top.move_pos_blocking(-90)
+        top.move_pos_blocking(90)
 
 
 if __name__ == '__main__':

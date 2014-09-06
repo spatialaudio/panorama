@@ -5,7 +5,7 @@ from sys import stderr
 import os
 from python_core_components.panorama_calculation import PanoramaCalculator
 from time import sleep
-
+import subprocess
 
 class VariSphear:
     ''' Offers functions for taking picture 
@@ -132,14 +132,17 @@ class VariSphear:
             exit()
 
 
+        li_prefix = list(map(chr, range(97, 123)))
+
         for index_v, pos_v in enumerate(li_motorTop):
+
             top.move_pos_blocking(pos_v)
+            prefix = li_prefix[index_v]
 
             for index_h, pos_h in enumerate(li_motorBase):
                 base.move_pos_blocking(pos_h)
 
-                filename = dir_output + '/' + "pano" + "V" + \
-                    str(index_v) + "H" + str(index_h) + ".jpg"
+                filename = dir_output + '/' + prefix + "_" + str(index_h) + ".jpg"
                 
                 # take a picture on each step
                 self.trigger_cam(filename, 5)
@@ -151,14 +154,16 @@ class VariSphear:
         # picture in 'filename'
         print("\n click")
 
-        cmd = "gphoto2 --capture-image-and-download --keep --filename " + filename + " "
-        
+        cmd = "gphoto2 --capture-image-and-download --keep --force-overwrite --filename " + filename + " "
+
+        # subprocess call
+        # subprocess Popen        
         print(cmd)
 
         try:
-            os.popen(cmd)
+            subprocess.check_call(["gphoto2","--capture-image-and-download","--keep","--force-overwrite","--filename",filename])
         except SystemError as error:
 
             raise RuntimeError(''' Orignal Error : ''' + str(error) + '''\n \nMake sure that gphoto2 is correct installed.''')
 
-        sleep(wait)
+        #sleep(wait)
