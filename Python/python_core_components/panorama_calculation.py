@@ -4,6 +4,7 @@ from sys import stderr
 
 
 class PanoramaCalculator:
+
     ''' Calculate Rotationsteps and Number of vertical Stages
         depending on given aperature angles.'''
 

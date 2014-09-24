@@ -5,6 +5,7 @@ import subprocess
 
 
 class PicImprover:
+
     ''' Improve our picture by using fulla'''
 
     def __init__(self, dir_output, fulla):
@@ -28,7 +29,7 @@ class PicImprover:
         if(not os.path.isfile(self.fulla)):
             stderr.write(
                 '\n ERROR @PicImprover: Can´t find fulla @%s !' % self.fulla
-                )
+            )
             stderr.write(
                 '''\n Type " find /* | grep fulla "
                 to figure your path out !\n exit \n''')

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from sys import stderr
 import configparser
 import argparse
@@ -25,6 +24,10 @@ def arg_options():
         metavar=('VERTICAL', 'HORIZONTAL'),
         help='''Set the vertical aperature angle
             and the horizontal aperature angle for calculations.
+            This values do NOT have to be the exact aperature angle 
+            of your camera. Instead they should contain a little 
+            overlap. You could use "nodalpointHelper" to figure out
+            how much overlap do you prefer.
             This values will be saved in "panorama.cfg"
             unless "-t" is set.
             ( default: values will be read from "panorama.cfg instead" )''')
@@ -111,8 +114,8 @@ def main():
     dir_output = config['output']['directory']
 
     # Get Interfaces / Ports to VariSphear
-    port_top = config['varisphear']['serialport_top'] 
-    port_base = config['varisphear']['serialport_base'] 
+    port_top = config['varisphear']['serialport_top']
+    port_base = config['varisphear']['serialport_base']
 
     calc = PanoramaCalculator()
     variSphear = VariSphear(port_top, port_base)

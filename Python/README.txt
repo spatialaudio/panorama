@@ -140,7 +140,7 @@ Software dependencies:
             In directory /dev should now ttyr00, ttyr01, ttyr02, ttyr03 exist.
             In our case we use ttyr00 ( baseMotor ) and ttyr01 ( topMotor ).
             If you want to chance this you have to it by manuelly edit the config File.
-            We created a config File in Step 5 in "Getting Started". 
+            We created a config File in Step 6 in "Getting Started". 
 
             For further instructions have a look at npreal2xx/README !
 
@@ -161,29 +161,40 @@ Software dependencies:
     
     0) : Determine the disortion-parameter (a,b,c,d) of your camera. ( Alaa ?! ).
          --- Example :   
-                        
+         
+    1) : We configured our camera. Please refer to the manual of your camera for special instructions.
+         We use a Canon "EOS-20D" and make the following settings :
+            - quality of picture == high
+            - autofocus off
+            - shortest focal length ( == max. aperature angle )
+            - set a fix white balance ( it depends on your room, so take a few picture to figured out a good value )
+            - image stabilizer off
+            - set a fix ISO-Value and a fix aperture-setting ( we choose 11 )
+            - optional : high exposure time
+         The optimal setting depends on the room.
+         Take a few picture with variation in ISO, exposure time and aperture-setting to determine your settings.     
     
-    1) : Connect the VariSphear with your PC and make sure that both are in the same subnetwork.
+    2) : Connect the VariSphear with your PC and make sure that both are in the same subnetwork.
          Try to ping the VariSphear to check if your connection is correct.
          No connection --> check your static IP-Adress and make sure the VariSphear is on.
 
-    2) : Check if your driver is already up --> type : ps ax | grep npreal  
+    3) : Check if your driver is already up --> type : ps ax | grep npreal  
          driver is not up --> type : sudo /usr/lib/npreal2/driver/mxloadsrv
 
-    3) : Connect your camera with your PC via USB.
+    4) : Connect your camera with your PC via USB.
          Make sure your camera is in "normal Mode" and powered on.
          Check if your PC recognised your camera by typing : gphoto2 --auto-detect
          Check if your Cam is supported by gPhoto2 by typing : gphoto2 --capture-image-and-download --keep
          If the error 'Could not claim the USB device' occurs , type : ps ax | grep gphoto and kill all of this prozesses
          ( This cmd is used by varisphear.py to take pictures. If it doesn´t work, look at "gphoto2 --help" for alternativ Instructions. )
          
-    4) : Remember to activate your virtual enviroment ( if you installed one )
+    5) : Remember to activate your virtual enviroment ( if you installed one )
          --- Example :
             - We activate our virtual python enviroment "env_panorama"
             > source /env_panorama/bin/activate
 
 
-    5) : Create a config-file or copy/edit the already existed one.
+    6) : Create a config-file or copy/edit the already existed one.
          Your configfile contains all your camera specific parameter and your output-directory.
 
          Creating a new one can easily be done by typing "python3 checkDependcies.py --configfile myConfig.cfg"
@@ -195,9 +206,10 @@ Software dependencies:
             > python3 checkDependcies.py --config myConfig.cfg 
 
          
-    6) : Calculating the nodalpoint.
+    7) : Calculating the nodalpoint.
          This avoid parallax , very importent etc. pp. 
          Follow the instructions ( Hannes ?! ).
+         Use "nodalpointHelper.py"
 
          --- Example :
              -
@@ -205,13 +217,16 @@ Software dependencies:
              -
                            
 
-    7) : Taking pictures.
+    8) : Taking pictures.
          Now we have to take a lot of pictures.
          Later on we will stich this pictures together to our room-panorama.
           
          For taking this pictures we used the programm "takePicture.py".
          Please make sure that the VariSphear and your camera is correct connect to your PC.  
          Have a look at our Example to see how it is done.
+         You can use "nodalpointHelper.py" to determine your aperature angle.
+         Make sure that there is enough covering between two neighboring pictures ( ~ 20 % ).
+
          Type : > python3  takePicture.py -h 
          for further information.          
 
@@ -226,25 +241,22 @@ Software dependencies:
             > python3 takePicture.py --config myConfig.cfg
 
 
-    8) : Improve picture.
-         Before we get to the stiching, we have to clean our picture from radial disortions.
-         For this purpose we use "improvePicture.py". 
+    9) : Create PtSticher-File
+         Before we get to the stiching, we have to build a PtSticher-File with all the externel parameter. 
+
          Type : 
-            python3 improvePicture.py -h
+            python3 createPtFile.py -h
          for further information
 
          --- Example :
-            - We added our disortion parameter we get in step 0) to "myConfig.cfg" using "improvePicture.py"
-            > python3 improvePicture.py --abc 0.0001 0.0002 0.0003 --config myConfig.cfg -n
-            - We start improving of all pics in folder "RoomPics"
-            > python3 improvePicture.py --config myConfig.cfg
-            - Take a look at "RoomPics", all corrected pictures have the suffix "_corr".
-            - The next programm "stichPicture.py" stich only pictures with this suffix.   
+            - We added the exact aperature angle of our camera to "myConfig.cfg" using "createPtFile.py"
+            > python3 createPtFile.py --config myConfig.cfg --aperature 66 -n          
+            - We added our disortion parameter we get in step 0) to "myConfig.cfg" using "createPtFile.py"
+            > python3 createPtFile.py --abc 0.0001 0.0002 0.0003 --config myConfig.cfg -n
+            - We generate our PtSticher-File 
+            > python3 createPtFile.py --config myConfig.cfg
+  
         
-    9) : Stich picture together.
-         Type:
-            python3 stichPicture.py -h
-         for further information. 
-         --- Example :
-               
+    10) : Stich picture together.
+         Now you can stich all puctures together using the PT-Sticher and our generated File.
             

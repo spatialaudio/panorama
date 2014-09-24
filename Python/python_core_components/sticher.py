@@ -5,6 +5,7 @@ import subprocess
 
 
 class PicSticher:
+
     ''' Offers functions for stiching
          our pictures to a panorama '''
 
@@ -155,7 +156,8 @@ class PicSticher:
 
                 if vertical_panorama is None:
                     vertical_panorama = picture
-                    cparam = '-g '+a+':'+b+':'+c+':'+d+' -o _tesst'
+                    cparam = '-g ' + a + ':' + b + \
+                        ':' + c + ':' + d + ' -o _tesst'
 
                     '#subprocess.call([self.enblend,cparam,filenameABS])'
 

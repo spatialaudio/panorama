@@ -68,7 +68,7 @@ def main():
     # set path to panorama.cfg
     path_cfg = args.config
     if(not path_cfg):
-        path_cfg = 'panorama.cfg'    
+        path_cfg = 'panorama.cfg'
 
     # get values from 'path_cfg'
     config = configparser.ConfigParser()
@@ -79,10 +79,9 @@ def main():
         stderr.write("\n ERROR: Can´t open file: %s !\n exit \n" % path_cfg)
         exit()
 
-
     # Get Interfaces / Ports to VariSphear
-    port_top = config['varisphear']['serialport_top'] 
-    port_base = config['varisphear']['serialport_base'] 
+    port_top = config['varisphear']['serialport_top']
+    port_base = config['varisphear']['serialport_base']
 
     # Init motor
     try:

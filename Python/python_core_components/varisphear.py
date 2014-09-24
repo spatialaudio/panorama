@@ -7,7 +7,9 @@ from python_core_components.panorama_calculation import PanoramaCalculator
 from time import sleep
 import subprocess
 
+
 class VariSphear:
+
     ''' Offers functions for taking picture 
         with the VariSphear '''
 
@@ -43,8 +45,6 @@ class VariSphear:
             position = float(start) - float(motor_step) * float(stage)
             li_motorTop.append(round(position, 2))
 
-        print("\n Motor Positions Vertikal" + str(li_motorTop))
-
         '''# We want to shift the overlap towards MotorPosition 0°
             because this will increase the benefit of the overlap.
             1/2 Overlap per Picture ( symmetric ):'''
@@ -59,7 +59,7 @@ class VariSphear:
             elif(position < 0):
                 li_motorTop[index] = position + HalfOverlapPicture
 
-        print("\n Motor Positions Vertikal" + str(li_motorTop))
+        #print("\n Motor Positions Vertikal" + str(li_motorTop))
 
         return li_motorTop
 
@@ -89,7 +89,7 @@ class VariSphear:
             position = start + motor_step * float(step)
             li_motorBase.append(round(position, 2))
 
-        print("\n Motor Positions Horizontal" + str(li_motorBase))
+        #print("\n Motor Positions Horizontal" + str(li_motorBase))
 
         return li_motorBase
 
@@ -131,7 +131,6 @@ class VariSphear:
                  by connecting to base schunkModul''')
             exit()
 
-
         li_prefix = list(map(chr, range(97, 123)))
 
         for index_v, pos_v in enumerate(li_motorTop):
@@ -142,28 +141,32 @@ class VariSphear:
             for index_h, pos_h in enumerate(li_motorBase):
                 base.move_pos_blocking(pos_h)
 
-                filename = dir_output + '/' + prefix + "_" + str(index_h) + ".jpg"
-                
+                filename = dir_output + '/' + \
+                    prefix + "_" + str(index_h) + ".jpg"
+
                 # take a picture on each step
                 self.trigger_cam(filename, 5)
 
-                print("\n"+filename)
+                print("\n" + filename)
 
     def trigger_cam(self, filename, wait):
         # Triggers the Cam using the cmd-tool of gphoto2 and download+save the
         # picture in 'filename'
         print("\n click")
 
-        cmd = "gphoto2 --capture-image-and-download --keep --force-overwrite --filename " + filename + " "
+        cmd = "gphoto2 --capture-image-and-download --keep --force-overwrite --filename " + \
+            filename + " "
 
         # subprocess call
-        # subprocess Popen        
+        # subprocess Popen
         print(cmd)
 
         try:
-            subprocess.check_call(["gphoto2","--capture-image-and-download","--keep","--force-overwrite","--filename",filename])
+            subprocess.check_call(
+                ["gphoto2", "--capture-image-and-download", "--keep", "--force-overwrite", "--filename", filename])
         except SystemError as error:
 
-            raise RuntimeError(''' Orignal Error : ''' + str(error) + '''\n \nMake sure that gphoto2 is correct installed.''')
+            raise RuntimeError(''' Orignal Error : ''' + str(error) +
+                               '''\n \nMake sure that gphoto2 is correct installed.''')
 
-        #sleep(wait)
+        # sleep(wait)
