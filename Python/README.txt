@@ -253,10 +253,13 @@ Software dependencies:
             > python3 createPtFile.py --config myConfig.cfg --aperature 66 -n          
             - We added our disortion parameter we get in step 0) to "myConfig.cfg" using "createPtFile.py"
             > python3 createPtFile.py --abc 0.0001 0.0002 0.0003 --config myConfig.cfg -n
-            - We generate our PtSticher-File 
+            - We added the location of Hugin in our Windows OS ( in this Version we only support .bat files )
+            > python3 createPtFile.py --hugin e:\Hugin --config myConfig.cfg -n
+            - We generate our PtSticher-File and our Bat-File in our Output Folder
             > python3 createPtFile.py --config myConfig.cfg
   
         
     10) : Stich picture together.
-         Now you can stich all puctures together using the PT-Sticher and our generated File.
+         We copy our whole output Folder to our Windows OS.
+         Now you can stich all puctures together using the PT-Sticher and our generated Bat-Files.
             

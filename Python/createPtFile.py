@@ -41,7 +41,15 @@ def arg_options():
         default=None,
         metavar=('CONFIGFILE'),
         help='''Specifies the realtive path to "panorama.cfg"
-        ( default: panorama.cfg ) ''')
+        ''')
+
+    parser.add_argument(
+        '--hugin',
+        dest='hugin',
+        default=None,
+        metavar=('PATH_HUGIN'),
+        help='''Specifies the absolute path to hugin on Windows OS
+        ( default: e:\Hugin ) ''')
 
     parser.add_argument(
         '-t',
@@ -117,6 +125,8 @@ def main():
         config['camera']['pure_aperature'] = str(args.aperature[0])
     if(args.directory):
         config['output']['directory'] = args.directory
+    if(args.hugin):
+        config['hugin']['dir'] = args.hugin
     if(args.abc):
         config['camera']['param_a'] = str(args.abc[0])
         config['camera']['param_b'] = str(args.abc[1])
