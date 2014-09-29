@@ -21,14 +21,13 @@ class ConfigCreater:
         config['camera']['vertical_angle'] = '60'
         config['camera']['horizontal_angle'] = '90'
         config['camera']['pure_aperature'] = '66'
-        config['camera']['param_a'] = '0.000123'
-        config['camera']['param_b'] = '0.000123'
-        config['camera']['param_c'] = '0.000123'
+        config['camera']['param_a'] = '0'
+        config['camera']['param_b'] = '0'
+        config['camera']['param_c'] = '0'
 
         # section : hugin
         config['hugin'] = {}
-        config['hugin']['fulla'] = '/usr/bin/fulla'
-        config['hugin']['enblend'] = '/usr/bin/enblend'
+        config['hugin']['dir'] = 'e:\Hugin'
 
         # section : varisphear
         config['varisphear'] = {}

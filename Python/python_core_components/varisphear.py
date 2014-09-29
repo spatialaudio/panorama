@@ -133,14 +133,13 @@ class VariSphear:
 
         li_prefix = list(map(chr, range(97, 123)))
 
-        for index_v, pos_v in enumerate(li_motorTop):
+        for index_h, pos_h in enumerate(li_motorBase):
+            base.move_pos_blocking(pos_h)
 
-            top.move_pos_blocking(pos_v)
-            prefix = li_prefix[index_v]
+            for index_v, pos_v in enumerate(li_motorTop):
 
-            for index_h, pos_h in enumerate(li_motorBase):
-                base.move_pos_blocking(pos_h)
-
+                top.move_pos_blocking(pos_v)
+                prefix = li_prefix[index_v]
                 filename = dir_output + '/' + \
                     prefix + "_" + str(index_h) + ".jpg"
 

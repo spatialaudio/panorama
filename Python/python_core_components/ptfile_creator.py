@@ -14,13 +14,11 @@ class PtCreator:
     def init_file(self):
         # return first block of PTSticher-file
 
-        # Was ist mit w,h ?!
-
-        string = '# PTStitcher script, written by hugin' + '\n'
-        string += '\n' + 'p f2 w3000 h459 v340  n"TIFF_m c:LZW r:CROP"'
-        string += '\n' + 'm g1 i0 f0 m2 p0.00784314' + '\n'
-        string += '\n' + '# output image lines'
-        string += '\n'
+        string = '# PTStitcher script, written by hugin' + '\r\n'
+        string += '\r\n' + 'p f2 w3000 h1500 v340  n"TIFF_m c:LZW r:CROP"'
+        string += '\r\n' + 'm g1 i0 f0 m2 p0.00784314' + '\r\n'
+        string += '\r\n' + '# output image lines'
+        string += '\r\n'
 
         return string
 
@@ -35,7 +33,7 @@ class PtCreator:
         line += ' d0 e0 g0'
         line += ' p' + str(vertical_pos) + ' r0 t0 v' + \
             str(angle) + ' y' + str(horizontal_pos)
-        line += '  n"' + str(filename) + '"\r'
+        line += '  n"' + str(filename) + '"\r\n'
 
         return line
 
@@ -52,9 +50,9 @@ class PtCreator:
 
             for index_h, pos_h in enumerate(li_horizontal):
 
-                pic = self.output_dir + '/' + \
-                    prefix + "_" + str(index_h) + ".jpg"
-                pt_file += self.create_oline(pos_v, pos_h, angle, pic)
+                pic = prefix + "_" + str(index_h) + ".jpg"
+                pt_file += self.create_oline(-pos_v,
+                                             round((360.0 - pos_h) % 360.0, 2), angle, pic)
 
-        pt_file += '\n'
+        pt_file += '\r\n'
         return pt_file

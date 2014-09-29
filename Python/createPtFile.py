@@ -2,6 +2,7 @@ from sys import stderr
 import configparser
 import argparse
 from python_core_components.ptfile_creator import PtCreator
+from python_core_components.batfile_creator import BatCreator
 from python_core_components.varisphear import VariSphear
 
 
@@ -80,6 +81,13 @@ def arg_options():
     return parser.parse_args()
 
 
+def info(dir_output, dir_hugin):
+    info = 'createPtFile.py copy the .bat and ptSticher Skripts into your output-directory : ' + str(dir_output) + '\r\n' + \
+        'Copy this Folder to a Windows OS with Hugin on it (@ ' + str(dir_hugin) + \
+        ' ) and excute one of bat-Skripts for stichung your picture together.\r\n '
+    print(info)
+
+
 def main():
 
     # get arguments
@@ -131,6 +139,7 @@ def main():
     param_c = float(config['camera']['param_c'])
 
     dir_output = config['output']['directory']
+    dir_hugin = config['hugin']['dir']
 
     # Get Interfaces / Ports to VariSphear
     port_top = config['varisphear']['serialport_top']
@@ -144,14 +153,39 @@ def main():
 
     # Create PTSticher-File
     pt_creator = PtCreator(dir_output, param_a, param_b, param_c)
-    output = pt_creator.create_file(li_motorTop, li_motorBase, aperature)
+    data_ptfile = pt_creator.create_file(li_motorTop, li_motorBase, aperature)
+
+    # Create BAT-Files
+    bat_creator = BatCreator(dir_hugin)
+    bat_ptsticher = bat_creator.create_ptsticher()
+    bat_scripted = bat_creator.create_scripted()
+    bat_template = bat_creator.create_template()
 
     # Save
-
     if(not args.noFile):
+
+        info(dir_output, dir_hugin)
+
+        pt_filename = dir_output + '/' + pt_filename
         with open(pt_filename, 'w') as ptfile:
-            ptfile.write(output)
+            ptfile.write(data_ptfile)
             print(' File ' + pt_filename + ' generated')
+
+        bat_filename = dir_output + '/' + 'hugin_ptstitcher.bat'
+        with open(bat_filename, 'w') as batfile:
+            batfile.write(bat_ptsticher)
+            print(' File ' + bat_filename + ' generated')
+
+        bat_filename = dir_output + '/' + 'hugin_scripted.bat'
+        with open(bat_filename, 'w') as batfile:
+            batfile.write(bat_scripted)
+            print(' File ' + bat_filename + ' generated')
+
+        bat_filename = dir_output + '/' + 'hugin_template.bat'
+        with open(bat_filename, 'w') as batfile:
+            batfile.write(bat_template)
+            print(' File ' + bat_filename + ' generated')
+
 
 if __name__ == '__main__':
 
