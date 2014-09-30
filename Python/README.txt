@@ -274,9 +274,9 @@ Software dependencies:
 		  hugin_hugin_ptstitcher.bat	for Method 2 (camera paramter [needs PtStichter file of step 9])
 		  hguin_template				for Method 3 (see 10b))	
 			
-	10b): If you want to make use of a template simply place the *.pto file in the folder that contains
-		  the hugin_template.bat script. 
+	10b): If you want to make use of a template create a folder named "temp" in the folder that contains
+		  the hugin_template.bat script. Place your *.pto file in that temp folder and run the script.
 		  
 		  If you have chosen to assemble the panorama by hugin (controlpoints) you can find the *.pto file
-		  of your project in the generated temp folder
+		  of your project in the generated temp folder for later use.
             
