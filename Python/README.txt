@@ -208,8 +208,15 @@ Software dependencies:
          
     7) : Calculating the nodalpoint.
          This avoid parallax , very importent etc. pp. 
-         Follow the instructions ( Hannes ?! ).
+         Follow the instructions ( Hannes ?! ) (Yeah Moritz?).
          Use "nodalpointHelper.py"
+		 
+		 "A picture is worth a thousand words"
+		 
+		 To get an idea of what you have to do here please check the wiki.
+		 (https://github.com/spatialaudio/panorama/wiki/(Guide)-No-Parallax-Point)
+		 You will find a detailed guide that even contains lots of pictures
+		 to make this process as understandable as possible.
 
          --- Example :
              -
